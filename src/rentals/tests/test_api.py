@@ -37,8 +37,8 @@ class ReservationApiTest(TestCase):
 
         data = {
             "rental": self.rental.id,
-            "start_time": start_time.isoformat(),
-            "end_time": end_time.isoformat(),
+            "start_time": start_time,
+            "end_time": end_time,
         }
 
         response = self.client.post("/rentals/reservation", data, format="json")
@@ -61,7 +61,7 @@ class ReservationApiTest(TestCase):
     def test_filter_reservations_by_start_time(self):
         filter_start_time = timezone.now() + timedelta(days=12)
         response = self.client.get(
-            "/rentals/reservation", {"start_time": filter_start_time.isoformat()}
+            "/rentals/reservation", {"start_time": filter_start_time}
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -70,7 +70,7 @@ class ReservationApiTest(TestCase):
     def test_filter_reservations_by_end_time(self):
         filter_end_time = timezone.now() + timedelta(days=18)
         response = self.client.get(
-            "/rentals/reservation", {"end_time": filter_end_time.isoformat()}
+            "/rentals/reservation", {"end_time": filter_end_time}
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -82,8 +82,8 @@ class ReservationApiTest(TestCase):
         response = self.client.get(
             "/rentals/reservation",
             {
-                "start_time": filter_start_time.isoformat(),
-                "end_time": filter_end_time.isoformat(),
+                "start_time": filter_start_time,
+                "end_time": filter_end_time,
             },
         )
 
@@ -96,8 +96,8 @@ class ReservationApiTest(TestCase):
         response = self.client.get(
             "/rentals/reservation",
             {
-                "start_time": filter_start_time.isoformat(),
-                "end_time": filter_end_time.isoformat(),
+                "start_time": filter_start_time,
+                "end_time": filter_end_time,
             },
         )
 
