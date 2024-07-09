@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-djangorestframework = "*"
-python-dotenv = "*"
-django-filter = "*"
-isort = "*"
-black = "*"
+djangorestframework = "3.15.2"
+python-dotenv = "1.0.1"
+django-filter = "24.2"
+isort = "5.13.2"
+black = "24.4.2"
 
 [dev-packages]
 
