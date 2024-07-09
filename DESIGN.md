@@ -60,6 +60,46 @@ Below is DBML diagram that outlines the relationships. Note there is no user dat
 - `name`: Filter by rental name (contains-lookup).
 ***
 
+## Code Structure
+<details>
+
+
+    ├── DESIGN.md
+    ├── LICENSE
+    ├── Pipfile
+    ├── Pipfile.lock
+    ├── README.md
+    ├── dbml.png
+    ├── requirements.txt
+    └── src             <---- Django project root
+        ├── core        <---- Core project config, including URL paths
+        │   ├── __init__.py
+        │   ├── asgi.py
+        │   ├── settings.py
+        │   ├── urls.py
+        │   └── wsgi.py
+        ├── db.sqlite3
+        ├── fixtures    <---- Contains starter data as json
+        │   └── starter.json
+        ├── manage.py
+        └── rentals     <---- Primary Django app, holds business logic and implementation
+            ├── __init__.py
+            ├── admin.py
+            ├── apps.py
+            ├── migrations
+            │   ├── ...
+            ├── models.py      <---- Data model definitions and validation logic
+            ├── selectors.py   <---- Database reads go through selectors
+            ├── services.py    <---- Database writes go through services
+            ├── tests
+            │   ├── __init__.py
+            │   ├── test_api.py     <---- Tests API responses and codes
+            │   └── test_models.py  <---- Tests core business logic through the models
+            ├── urls.py             <---- Holds URL paths for the 'rentals' app
+            └── views.py            <---- API entrypoints
+
+</details>
+
 ## Thought Process
 
 Given that this is a coding assignment, I've put down some of my own assumptions and considerations of this implementation that I took notes of along the way.
