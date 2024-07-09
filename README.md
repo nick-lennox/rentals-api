@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Django project encompasses a simple API for managing vacation home rentals, focusing on the functional requirements of the assignment while maintaining extensibiltiy and scalability. 
+This Django project encompasses a simple API for managing vacation home rentals, focusing on the functional requirements of the assignment while maintaining extensibiltiy and scalability. There is a provided [design document](DESIGN.md) which provides specification for the API.
 
 ## Requirements
 
@@ -31,12 +31,13 @@ These instructions are tailored for usage with [Pipenv](https://pipenv.pypa.io/e
 3. **Apply Migrations:**
     This project uses a SQLite DB, therefore some migrations must first be applied to propogate [model](https://docs.djangoproject.com/en/5.0/topics/db/models/) data to the database.
     ```bash
+    cd src/
     python manage.py migrate
     ```
     3a. **Optional:** Load fake data
     There is a starter [fixture](https://docs.djangoproject.com/en/5.0/topics/db/fixtures/) to load some initial fake data into the database. If you'd like to start with this data, you can load it into your database from the `starter.json` file:
     ```bash
-    django-admin loaddata starter.json
+    django-admin loaddata fixtures/starter.json
     ```
 
 ## Running the Server

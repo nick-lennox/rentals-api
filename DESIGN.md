@@ -40,7 +40,7 @@ Below is DBML diagram that outlines the relationships. Note there is no user dat
 ##### `/rentals/reservation`
 **Method:** GET
 
-**Description:** Retrieve all reservations with optional query parameters for filtering.
+**Description:** Retrieve all reservations with optional query parameters for filtering. `start_time` and `end_time` can provide a useful date range to look for existing reservations.
 
 **Optional Query Parameters:**
 * `rental`: Filter reservations by rental ID
@@ -71,5 +71,6 @@ Given that this is a coding assignment, I've put down some of my own assumptions
 
 
 **Considerations:**
+- [Django conveniently takes care of timezone conversions](https://docs.djangoproject.com/en/5.0/topics/i18n/timezones/) to UTC in the database. Additionally, through the use of `django-filter`, reading timestamps in non-utc time from the client is taken care of for us. This declutters the business logic implementation by avoiding manual tz conversion. 
 - Determining rental availability can become inefficient as the database grows. Can potentially index on start/end times or precompute availability when a new reservation is made and cache newly-calculated availability (especially if a particular reservation is popular)
 - As more rentals and reservations are added, the API response size can grow large, especially when no query params are used to filter. Paginating API results would be a good idea as the data grows.
