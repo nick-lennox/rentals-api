@@ -119,4 +119,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Application defaults and secrets
 
-DEFAULT_RENTAL_LIMIT = os.getenv("DEFAULT_RENTAL_LIMIT", 10)
+DEFAULT_RENTAL_LIMIT = int(os.getenv("DEFAULT_RENTAL_LIMIT", 10))
