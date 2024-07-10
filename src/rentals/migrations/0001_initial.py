@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("name", models.CharField(max_length=50)),
-                ("limit", models.PositiveIntegerField(default="10")),
+                ("limit", models.PositiveIntegerField(default=10)),
             ],
             options={
                 "abstract": False,
