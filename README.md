@@ -38,7 +38,7 @@ These instructions are tailored for usage with [Pipenv](https://pipenv.pypa.io/e
     3a. **Optional:** Load fake data
     There is a starter [fixture](https://docs.djangoproject.com/en/5.0/topics/db/fixtures/) to load some initial fake data into the database. If you'd like to start with this data, you can load it into your database from the `starter.json` file:
     ```bash
-    django-admin loaddata fixtures/starter.json
+    python manage.py loaddata fixtures/starter.json
     ```
 
 ## Running the Server
