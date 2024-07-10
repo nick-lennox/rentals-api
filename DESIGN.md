@@ -13,7 +13,7 @@ This implementation uses three data models to deliver the core functionality:
 **Reservation**
     A `Reservation` represents a `Rental` that has been booked with a given start and end time. 
 
-Below is DBML diagram that outlines the relationships. Note there is no user data; for the sake of keeping this project scoped to the core functionality any user-related information has been purposefully omitted. 
+Below is an ERD diagram that outlines the relationships. Note there is no user data; for the sake of keeping this project scoped to the core functionality any user-related information has been purposefully omitted. 
 <p align="center">
   <img src="dbml.png" alt="dbml" style="width: 50%">
 </p>
@@ -24,14 +24,14 @@ Below is DBML diagram that outlines the relationships. Note there is no user dat
 
 **Method:** POST
 
-**Description:** Create a reservation. Upon creation the reservation is validated to ensure there are no existing reservations that overlap.
+**Description:** Create a reservation. Upon creation the reservation is validated to ensure there are no existing reservations that overlap. If timestamp does not include timezone it will default to UTC.
 
 **Payload:** (example)
 ```json
 {
   "rental": 1,
-  "start_time": "2024-07-15T10:00:00",
-  "end_time": "2024-07-20T10:00:00"
+  "start_time": "2024-07-15T10:00:00Z",
+  "end_time": "2024-07-20T10:00:00Z"
 }
 ```
 
@@ -40,7 +40,8 @@ Below is DBML diagram that outlines the relationships. Note there is no user dat
 ##### `/rentals/reservation`
 **Method:** GET
 
-**Description:** Retrieve all reservations with optional query parameters for filtering. `start_time` and `end_time` can provide a useful date range to look for existing reservations.
+**Description:** Retrieve reservations by id (`/rentals/reservation/<id>`) or with optional query parameters for filtering. `start_time` and `end_time` can provide a useful date range to look for existing reservations. If no filters are provided all reservations are returned.
+
 
 **Optional Query Parameters:**
 * `rental`: Filter reservations by rental ID
@@ -49,11 +50,11 @@ Below is DBML diagram that outlines the relationships. Note there is no user dat
 
 ***
 
-##### `/rentals/listings`
+##### `/rentals/listing`
 
 **Method:** GET
 
-**Description:** Retrieve all rentals with optional query parameters for filtering.
+**Description:** Retrieve all rentals by id (`/rentals/listing/<id>`) or with optional query parameters for filtering. If no filters are provided all rentals are returned.
 
 **Optional Query Parameters:**
 - `rental_type`: Filter by rental type ID.
@@ -106,8 +107,8 @@ Given that this is a coding assignment, I've put down some of my own assumptions
 
 **Assumptions:**
 - User info is not relevant to core features - if it is relevant, the design is extensible enough to easily integrate user logic. 
-- Creating a reservation requires a *specific* rental property to be given. In a real world application based off this API the flow would involve grabbing *all* rentals (using `/rentals/listings`) and then passing a specific `Rental` id in the payload to `/rentals/reservation`. 
-- The # of rentals allowed per rental type is dynamic. I considered making this an in-memory value to avoid DB lookup on each new rental creation, however this value seems like it will scale with the growth of the data and mitigates the need to re-deploy upon changing.
+- Creating a reservation requires a *specific* rental property to be given. In a real world application based off this API the flow would involve grabbing *all* rentals (using `/rentals/listing`) and then passing a specific `Rental` id in the payload to `/rentals/reservation`. 
+- The # of rentals allowed per rental type is dynamic. I considered storing the limit in application logic to avoid DB lookup on each new rental creation, however this value seems like it will scale with the growth of the data and mitigates the need to re-deploy upon changing. Additionally there may be more data associated to particular home types in the future, so it made sense to make `RentalType` its own model.
 
 
 **Considerations:**

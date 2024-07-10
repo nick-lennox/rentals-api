@@ -51,6 +51,12 @@ class ReservationApiTest(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 3)
+        
+    def test_get_reservation_by_id(self):
+        response = self.client.get("/rentals/reservation/1")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], 1)
 
     def test_filter_reservations_by_rental(self):
         response = self.client.get("/rentals/reservation", {"rental": self.rental.id})
@@ -114,14 +120,20 @@ class RentalApiTest(TestCase):
         Rental.objects.create(rental_type=self.rental_type2, name="Loot Lake Lodge")
 
     def test_list_rentals(self):
-        response = self.client.get("/rentals/listings")
+        response = self.client.get("/rentals/listing")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
+    def test_get_rental_by_id(self):
+        response = self.client.get("/rentals/listing/1")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], 1)
+        
     def test_filter_rentals_by_type(self):
         response = self.client.get(
-            "/rentals/listings", {"rental_type": self.rental_type1.id}
+            "/rentals/listing", {"rental_type": self.rental_type1.id}
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

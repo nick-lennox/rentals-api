@@ -1,8 +1,9 @@
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
-from rentals.models import Rental, RentalType
+from rentals.models import Rental, RentalType, Reservation
 from rentals.selectors import rental_list, reservation_list
 from rentals.services import reservation_create
 
@@ -12,7 +13,7 @@ class ReservationApi(APIView):
     API endpoint for managing reservations
 
     /rentals/reservation
-    GET: Retrieve a list of reservations based on optional filters
+    GET: Retrieve reservations by id or with optional filters
     POST: Create a new reservation with given rental, start time, and end time
 
     InputSerializer: Serializer for validating and parsing incoming reservation data
@@ -49,7 +50,12 @@ class ReservationApi(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
-    def get(self, request):
+    def get(self, request, id=None):
+        if id:
+            reservation = get_object_or_404(Reservation, id=id)
+            data = self.OutputSerializer(reservation).data
+            return Response(data)
+        
         filters_serializer = self.FilterSerializer(data=request.query_params)
         filters_serializer.is_valid(raise_exception=True)
 
@@ -65,13 +71,14 @@ class RentalApi(APIView):
     API endpoint for managing rental properties
 
     /rentals/listings
-    GET: Retrieve a list of rentals based on optional filters
+    GET: Retrieve a list of rentals by id or with optional filters
 
     OutputSerializer: Serializer for formatting rental data in API responses
     FilterSerializer: Serializer for validating and parsing optional query parameters for filtering rentals
     """
 
     class OutputSerializer(serializers.Serializer):
+        id = serializers.IntegerField()
         rental_type = serializers.PrimaryKeyRelatedField(read_only=True)
         name = serializers.CharField()
 
@@ -81,7 +88,12 @@ class RentalApi(APIView):
         )
         name = serializers.CharField(max_length=100, allow_blank=True, required=False)
 
-    def get(self, request):
+    def get(self, request, id=None):
+        if id:
+            rental = get_object_or_404(Rental, id=id)
+            data = self.OutputSerializer(rental).data
+            return Response(data)
+        
         filters_serializer = self.FilterSerializer(data=request.query_params)
         filters_serializer.is_valid(raise_exception=True)
 
