@@ -21,6 +21,7 @@ This Django project encompasses a simple API for managing vacation home rentals,
 2. **Install dependencies:**
 These instructions are tailored for usage with [Pipenv](https://pipenv.pypa.io/en/latest/). If you prefer a different dependency manager, a `requirements.txt` file is also provided.
     ```bash
+    pipenv shell
     pipenv install
     ```
 
